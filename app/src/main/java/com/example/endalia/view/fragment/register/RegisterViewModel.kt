@@ -80,7 +80,7 @@ class RegisterViewModel : ViewModel() {
             surname = fullNameSplit[1],
             phone = "666666666",
             job = "Intern",
-            photo = R.drawable.john_doe
+            photo = R.drawable.employee_portrait_1
         )
         runBlocking {
             withContext(Dispatchers.IO) {
