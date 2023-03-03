@@ -17,9 +17,9 @@ class RegisterViewModel : ViewModel() {
     private lateinit var _database: AppDatabase
     private val _userEmail = MutableLiveData<String>()
     private val _userPass = MutableLiveData<String>()
-    private val _fullName = MutableLiveData<String>()
-    private val _ocupation = MutableLiveData<String>()
     private val _registerSuccess = MutableLiveData<RegisterState>()
+    private val errorMessage = MutableLiveData<String>()
+
 
 
     enum class RegisterState {
@@ -32,10 +32,6 @@ class RegisterViewModel : ViewModel() {
         UserAlreadyExistsError
     }
 
-    val userEmail: LiveData<String> = _userEmail
-    val userPass: LiveData<String> = _userPass
-    val fullName: LiveData<String> = _fullName
-    val ocupation: LiveData<String> = _ocupation
     val registerSuccess: LiveData<RegisterState> = _registerSuccess
 
     fun configViewmodel(context: Context) {
@@ -48,14 +44,6 @@ class RegisterViewModel : ViewModel() {
 
     fun setUserPass(password: String) {
         _userPass.value = password
-    }
-
-    fun setFullName(name: String) {
-        _fullName.value = name
-    }
-
-    fun setOcupation(ocupation: String) {
-        _ocupation.value = ocupation
     }
 
     suspend fun performRegister() {
@@ -72,12 +60,11 @@ class RegisterViewModel : ViewModel() {
             _registerSuccess.value = RegisterState.UserAlreadyExistsError
             return
         }
-        val fullNameSplit = fullName.value!!.split(' ')
         val newEmploy = Employee(
             email = _userEmail.value!!,
             password = _userPass.value!!,
-            name = fullNameSplit[0],
-            surname = fullNameSplit[1],
+            name = "Charles",
+            surname = "Smith",
             phone = "666666666",
             job = "Intern",
             photo = R.drawable.employee_portrait_1
@@ -100,7 +87,7 @@ class RegisterViewModel : ViewModel() {
     }
 
     private fun fieldsCorrect(): Boolean {
-        if (_userEmail.value == null || _userPass.value == null || _fullName.value == null || _ocupation.value == null) {
+        if (_userEmail.value == null || _userPass.value == null) {
             this._registerSuccess.value = RegisterState.BothError
             return false
         }
@@ -121,6 +108,10 @@ class RegisterViewModel : ViewModel() {
     }
 
     private fun isValidPassword(password: String): Boolean {
-        return password.length >= 6
+        val passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$".toRegex()
+//        if (!isValidPassword(_userPass)) {
+//            errorMessage.postValue("Contraseña demasiado corta")
+//        }
+        return passwordPattern.matches(password)
     }
 }

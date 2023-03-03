@@ -62,24 +62,6 @@ class RegisterFragment : Fragment() {
         }
     }
 
-//    private fun fieldsCorrect(): Boolean {
-//
-//        val passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*\\p{Punct})[A-Za-z\\d\\p{Punct}]{8,}\$".toRegex()
-//
-//        if (emailInput.value == null || _userPass.value == null) {
-//            this._loginSuccess.value = LoginViewModel.LoginState.BothError
-//            return false
-//        }
-//
-//        if (!passwordRegex.matches(_userPass.value!!)) {
-//            this._loginSuccess.value = LoginViewModel.LoginState.PasswordError
-//            return false
-//        }
-//
-//        this._loginSuccess.value = LoginViewModel.LoginState.None
-//        return true
-//    }
-
     private fun observeViewModel() {
         viewModel.registerSuccess.observe(viewLifecycleOwner) {
             when (it) {
