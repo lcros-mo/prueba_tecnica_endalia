@@ -3,7 +3,6 @@ package com.example.endalia.view.fragment.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.endalia.controllers.AppDatabase
 import com.example.endalia.util.Singleton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -54,11 +53,14 @@ class LoginViewModel : ViewModel() {
     }
 
     private fun fieldsCorrect(): Boolean {
+
         if (_userEmail.value == null || _userPass.value == null) {
             this._loginSuccess.value = LoginState.BothError
             return false
         }
+
         this._loginSuccess.value = LoginState.None
         return true
     }
+
 }

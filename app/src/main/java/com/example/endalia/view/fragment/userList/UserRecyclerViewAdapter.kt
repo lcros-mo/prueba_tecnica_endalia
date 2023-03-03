@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.endalia.R
 import com.google.android.material.imageview.ShapeableImageView
 
-class UserAdapter(private val userList : ArrayList<Users>) :
-    RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+class UserRecyclerViewAdapter(private val userList : ArrayList<Users>) :
+    RecyclerView.Adapter<UserRecyclerViewAdapter.UserViewHolder>() {
 
 
 
@@ -22,12 +22,9 @@ class UserAdapter(private val userList : ArrayList<Users>) :
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
 
-        val currentItem = userList[position]
-        holder.portrait.setImageResource(currentItem.portrait)
-        holder.lastname.text = currentItem.lastName
-        holder.name.text = currentItem.name
-        holder.position.text = currentItem.position
+        val user = userList[position]
 
+        holder.setUpView(user)
     }
 
     override fun getItemCount(): Int {
@@ -38,9 +35,18 @@ class UserAdapter(private val userList : ArrayList<Users>) :
 
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val portrait : ShapeableImageView = itemView.findViewById(R.id.portrait)
-        val lastname : TextView = itemView.findViewById(R.id.lastName)
-        val name : TextView = itemView.findViewById(R.id.name)
-        val position :TextView = itemView.findViewById(R.id.position)
+        fun setUpView(user: Users){
+            val portrait : ShapeableImageView = itemView.findViewById(R.id.portrait)
+            val lastname : TextView = itemView.findViewById(R.id.lastName)
+            val name : TextView = itemView.findViewById(R.id.name)
+            val position :TextView = itemView.findViewById(R.id.position)
+
+
+            portrait.setImageResource(user.portrait)
+            lastname.text = user.lastName
+            name.text = user.name
+            position.text = user.position
+        }
+
     }
 }

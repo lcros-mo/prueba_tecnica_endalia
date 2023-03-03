@@ -10,8 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import androidx.lifecycle.MutableLiveData
+
 
 import com.example.endalia.R
+import com.example.endalia.view.fragment.login.LoginFragment
+import com.example.endalia.view.fragment.login.LoginViewModel
 import com.example.endalia.view.fragment.userList.UserListFragment
 import com.google.android.material.textfield.TextInputEditText
 
@@ -21,8 +25,6 @@ class RegisterFragment : Fragment() {
     private val button: Button? by lazy { view?.findViewById(R.id.registerButton) }
     private val emailInput: TextInputEditText? by lazy { view?.findViewById(R.id.userEmail) }
     private val passInput: TextInputEditText? by lazy { view?.findViewById(R.id.userPass) }
-    private val fullNameInput: TextInputEditText? by lazy { view?.findViewById(R.id.userFullName) }
-    private val occupationInput: TextInputEditText? by lazy { view?.findViewById(R.id.userOcupation) }
 
 
     override fun onCreateView(
@@ -58,16 +60,25 @@ class RegisterFragment : Fragment() {
             // Updates viewmodel _userPass
             viewModel.setUserPass(text.toString())
         }
-
-        fullNameInput?.doOnTextChanged { text, _, _, _ ->
-            // Updates viewmodel _confirmUserPass
-            viewModel.setFullName(text.toString())
-        }
-
-        occupationInput?.doOnTextChanged { text, _, _, _ ->
-            viewModel.setOcupation(text.toString())
-        }
     }
+
+//    private fun fieldsCorrect(): Boolean {
+//
+//        val passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*\\p{Punct})[A-Za-z\\d\\p{Punct}]{8,}\$".toRegex()
+//
+//        if (emailInput.value == null || _userPass.value == null) {
+//            this._loginSuccess.value = LoginViewModel.LoginState.BothError
+//            return false
+//        }
+//
+//        if (!passwordRegex.matches(_userPass.value!!)) {
+//            this._loginSuccess.value = LoginViewModel.LoginState.PasswordError
+//            return false
+//        }
+//
+//        this._loginSuccess.value = LoginViewModel.LoginState.None
+//        return true
+//    }
 
     private fun observeViewModel() {
         viewModel.registerSuccess.observe(viewLifecycleOwner) {
@@ -92,7 +103,7 @@ class RegisterFragment : Fragment() {
                 }
                 RegisterViewModel.RegisterState.Success -> {
                     // Registration successful
-                    parentFragmentManager.beginTransaction().replace(R.id.main_frame, UserListFragment()).commit()
+                    parentFragmentManager.beginTransaction().replace(R.id.main_frame, LoginFragment()).commit()
                 }
             }
         }
